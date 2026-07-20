@@ -11,12 +11,17 @@ class Car {
         this.friction = 0.05;
 
         this.angle = 0;
-
+        this.sensor = new Sensor(this);
         this.controls = new Controls();
     }
 
+    update(roadBorders) {
+        this.#move();
+        this.sensor.update(roadBorders);
+    }
+
     draw(ctx) {
-        //ctx.save();
+        ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(-this.angle);
         
@@ -26,11 +31,9 @@ class Car {
                 this.width, 
                 this.height);
         ctx.fill(); 
-        //ctx.restore();
-    }
+        ctx.restore();
 
-    update() {
-        this.#move();
+        this.sensor.draw(ctx);
     }
 
     #move() {
